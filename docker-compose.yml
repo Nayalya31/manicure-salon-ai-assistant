@@ -1,0 +1,27 @@
+services:
+  manicure-assistant:
+    build: .
+    container_name: manicure-assistant
+    restart: unless-stopped
+    env_file:
+      - /etc/manicure-assistant.env
+    volumes:
+      - manicure_assistant_data:/app/data
+    networks:
+      - n8n_default
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=n8n_default
+      - traefik.http.routers.manicure-assistant.rule=Host(`leads.24tali-ai.ru`)
+      - traefik.http.routers.manicure-assistant.entrypoints=web,websecure
+      - traefik.http.routers.manicure-assistant.tls=true
+      - traefik.http.routers.manicure-assistant.tls.certresolver=mytlschallenge
+      - traefik.http.services.manicure-assistant.loadbalancer.server.port=8080
+
+volumes:
+  manicure_assistant_data:
+
+networks:
+  n8n_default:
+    external: true
+

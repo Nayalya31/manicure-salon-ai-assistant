@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Учебный ИИ-ассистент вымышленного маникюрного салона: ответы по услугам и приём тестовой заявки.">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>Лак & Логика — учебный ИИ-ассистент</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body>
+  <div class="demo-ribbon">Демонстрационный проект · реальных записей не создаёт</div>
+  <main class="shell">
+    <section class="intro" aria-labelledby="page-title">
+      <div class="brand"><span class="brand__mark">L</span><span>Лак & Логика</span></div>
+      <p class="eyebrow">ИИ-ассистент маникюрного салона</p>
+      <h1 id="page-title">Вопросы об услугах и тестовая заявка — в одном чате</h1>
+      <p class="lead">Спросите о демонстрационных ценах и длительности или соберите заявку на желаемую дату. Время подтвердит только администратор.</p>
+      <div class="notice">
+        <strong>Учебная демонстрация</strong>
+        <p>Используйте вымышленные данные и тестовый контакт, например <code>@test_guest</code>. Сообщения передаются внешнему ИИ-сервису OpenAI.</p>
+      </div>
+      <div class="facts">
+        <div><span>Модель</span><strong>{{ model }}</strong></div>
+        <div><span>Часовой пояс</span><strong>{{ timezone }}</strong></div>
+        <div><span>Результат</span><strong>Заявка, не запись</strong></div>
+      </div>
+    </section>
+
+    <section class="chat-card" aria-label="Чат с ассистентом">
+      <header class="chat-header">
+        <div class="avatar" aria-hidden="true">AI</div>
+        <div><strong>Ассистент салона</strong><span><i></i> онлайн-демо</span></div>
+        <button id="new-chat" class="icon-button" type="button" title="Начать новый диалог" aria-label="Начать новый диалог">↻</button>
+      </header>
+      <div id="messages" class="messages" aria-live="polite" aria-busy="false"></div>
+      <div id="suggestions" class="suggestions" aria-label="Примеры вопросов">
+        <button type="button">Сколько стоит маникюр с покрытием?</button>
+        <button type="button">Сколько длится процедура?</button>
+        <button type="button">Хочу оставить заявку</button>
+      </div>
+      <div id="confirmation" class="confirmation" hidden>
+        <div><strong>Заявка готова к отправке</strong><p>Проверьте состав в сообщении выше. Данные можно исправить обычным сообщением.</p></div>
+        <button id="confirm-submit" class="primary-button" type="button">Подтвердить и отправить</button>
+      </div>
+      <div id="error" class="error" role="alert" hidden></div>
+      <form id="chat-form" class="composer">
+        <label class="visually-hidden" for="message-input">Сообщение</label>
+        <textarea id="message-input" rows="1" maxlength="1200" placeholder="Напишите сообщение…" required></textarea>
+        <button type="submit" aria-label="Отправить сообщение">↑</button>
+      </form>
+      <footer class="chat-footer">ИИ может ошибаться · сведения и цены учебные</footer>
+    </section>
+  </main>
+  <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+</body>
+</html>
