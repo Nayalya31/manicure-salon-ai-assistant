@@ -70,8 +70,13 @@ class TelegramNotifier:
                     "disable_web_page_preview": True,
                 },
             )
-            response.raise_for_status()
-            data = response.json()
+            try:
+                data = response.json()
+            except ValueError:
+                data = {}
+            if not response.is_success:
+                description = str(data.get("description") or f"HTTP {response.status_code}")
+                raise RuntimeError(f"Telegram API: {description[:300]}")
         if not data.get("ok"):
             raise RuntimeError("Telegram отклонил уведомление")
         return str(data["result"]["message_id"])
